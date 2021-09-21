@@ -6,7 +6,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 
 import com.opencsv.bean.CsvToBean;
@@ -16,9 +15,7 @@ public class StateCensusAnalyser {
 	
 	private static List<CSVStateCensus>csvFileList = new ArrayList<>();
 	
-	
-	public int loadIndianCensusData(String csvFilePath) {
-		int numberOfEntries = 0;
+	public int loadIndianCensusData(String csvFilePath) throws CensusAnalyserException {
 		try {
 			Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));
 			CsvToBeanBuilder<CSVStateCensus> csvToBeanBuilder=new CsvToBeanBuilder<>(reader);
@@ -28,12 +25,12 @@ public class StateCensusAnalyser {
 			Iterator<CSVStateCensus> censusCSVIterator=csvToBean.iterator();
 
     		while(censusCSVIterator.hasNext()) {
-    			numberOfEntries++;
-    			censusCSVIterator.next();
+    			csvFileList.add(censusCSVIterator.next());
     		}
 		}
 		catch (IOException e) {
+			throw new CensusAnalyserException(e.getMessage(), CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
 		}
-		return numberOfEntries;
+		return csvFileList.size();
 	}
 }
