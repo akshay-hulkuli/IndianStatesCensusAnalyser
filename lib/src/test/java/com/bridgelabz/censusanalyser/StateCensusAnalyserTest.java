@@ -51,4 +51,16 @@ public class StateCensusAnalyserTest {
 		}
 	}
 	
+	@Test
+	public void givenWrongDelimiter_InIndiaCensusData_ShouldReturnCustomExceptionType() {
+	    try {
+	    	StateCensusAnalyser stateCensusAnalyser = new StateCensusAnalyser();
+			ExpectedException exceptionRule = ExpectedException.none();
+			exceptionRule.expect(CensusAnalyserException.class);
+			int rows = stateCensusAnalyser.loadIndianCensusData(CSV_WITH_WRONG_DELIMITER);
+	    } catch (CensusAnalyserException e) {
+	    	assertEquals(e.type, CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
+	    }
+	}
+	
 }
