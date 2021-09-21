@@ -10,8 +10,8 @@ public class StateCensusAnalyserTest {
 	private static final String CORRECT_CSV_FILE_PATH = "resources/IndianStateCensusData.csv";
 	private static final String WRONG_CSV_FILE_PATH = "resources/test/IndianStateCensusData.csv";
 	private static final String INCORRECT_FILE_FORMAT = "resources/IncorrectFileFormat.txt";
-	private static final String CSV_WITH_WRONG_DELIMITER = "./src/test/resources/CensusDataWithWrongDelimiter.csv";
-	private static final String CSV_WITH_INCORRECT_HEADER = "./src/test/resources/CensusDataIncorrectHeader.csv";
+	private static final String CSV_WITH_WRONG_DELIMITER = "resources/CensusDataWithWrongDelimiter.csv";
+	private static final String CSV_WITH_INCORRECT_HEADER = "resources/CensusDataIncorrectHeader.csv";
 	@Test
 	public void givenIndianCensusCSVFile_WhenCorrect_ReturnsNumberOfRows() {
 		try {	
@@ -60,8 +60,18 @@ public class StateCensusAnalyserTest {
 			exceptionRule.expect(CensusAnalyserException.class);
 			int rows = stateCensusAnalyser.loadIndianCensusData(CSV_WITH_WRONG_DELIMITER);
 	    } catch (CensusAnalyserException e) {
-	    	assertEquals(e.type, CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
+	    	assertEquals(e.type, CensusAnalyserException.ExceptionType.CSV_FILE_INTERNAL_ISSUES);
 	    }
 	}
+	
+	@Test
+    public void givenIndianCensusCSVFile_WhenIncorrectHeader_ShouldThrowException() {
+    	try {
+    		StateCensusAnalyser stateCensusAnalyser = new StateCensusAnalyser();
+			int rows = stateCensusAnalyser.loadIndianCensusData(CSV_WITH_INCORRECT_HEADER);
+        } catch (CensusAnalyserException e) {
+        	assertEquals(e.type, CensusAnalyserException.ExceptionType.CSV_FILE_INTERNAL_ISSUES);
+        }
+    }
 	
 }
