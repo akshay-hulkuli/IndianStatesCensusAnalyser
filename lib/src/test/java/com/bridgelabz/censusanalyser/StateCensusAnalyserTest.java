@@ -24,6 +24,7 @@ public class StateCensusAnalyserTest {
 		}
 	}
 	
+	
 	@Test
 	public void givenIndianCensusCSVFile_WhenWrongPath_ReturnsException() {
 		try {
