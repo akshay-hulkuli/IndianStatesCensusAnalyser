@@ -1,4 +1,6 @@
 package com.bridgelabz.censusanalyser;
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -32,6 +34,20 @@ public class StateCensusAnalyserTest {
 		}
 		catch( CensusAnalyserException e) {
 			e.getMessage();
+		}
+	}
+	
+	@Test
+	public void givenIndianCensusCSVFile_WhenCorrectPathButWrongFileFormat_ShouldThrowException() {	
+		try {
+			StateCensusAnalyser stateCensusAnalyser = new StateCensusAnalyser();
+			ExpectedException exceptionRule = ExpectedException.none();
+			exceptionRule.expect(CensusAnalyserException.class);
+			int rows = stateCensusAnalyser.loadIndianCensusData(INCORRECT_FILE_FORMAT);
+		} 
+		catch (CensusAnalyserException e) {
+			e.getMessage();
+			assertEquals(e.type, CensusAnalyserException.ExceptionType.UNABLE_TO_PARSE);
 		}
 	}
 	
