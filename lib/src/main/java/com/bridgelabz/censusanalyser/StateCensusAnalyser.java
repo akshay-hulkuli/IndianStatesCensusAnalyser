@@ -18,7 +18,7 @@ public class StateCensusAnalyser {
 	
 	public int loadIndianCensusData(String csvFilePath) throws CensusAnalyserException {
 		try {
-			if(csvFilePath.contains(".txt")) 
+			if(!csvFilePath.endsWith(".csv")) 
 				throw new CensusAnalyserException("File must be in CSV format", CensusAnalyserException.ExceptionType.INCORRECT_FILE_FORMAT);
 			Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));
 			CsvToBeanBuilder<CSVStateCensus> csvToBeanBuilder=new CsvToBeanBuilder<>(reader);
@@ -46,7 +46,7 @@ public class StateCensusAnalyser {
 	
 	public int loadIndianStateCode(String csvFilePath) throws CensusAnalyserException {
 		try {
-			if(csvFilePath.contains(".txt"))
+			if(!csvFilePath.endsWith(".csv"))
 				throw new CensusAnalyserException("File must be in CSV format", CensusAnalyserException.ExceptionType.INCORRECT_FILE_FORMAT);
 			Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));
 			CsvToBeanBuilder<CSVStates> csvToBeanBuilder = new CsvToBeanBuilder<>(reader);
