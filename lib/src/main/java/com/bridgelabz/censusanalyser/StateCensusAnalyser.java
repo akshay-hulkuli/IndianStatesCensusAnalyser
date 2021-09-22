@@ -32,9 +32,6 @@ public class StateCensusAnalyser {
 		catch (IOException e) {
 			throw new CensusAnalyserException(e.getMessage(), CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
 		}
-		catch(IllegalStateException e) {
-			throw new CensusAnalyserException(e.getMessage(),CensusAnalyserException.ExceptionType.UNABLE_TO_PARSE);
-		}
 		catch(NullPointerException e) {
 			throw new CensusAnalyserException(e.getMessage(), CensusAnalyserException.ExceptionType.NO_CENSUS_DATA);
 		}
@@ -60,6 +57,9 @@ public class StateCensusAnalyser {
 		}
 		catch(IOException e) {
 			throw new CensusAnalyserException(e.getMessage(), CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
+		}
+		catch(RuntimeException e) {
+			throw new CensusAnalyserException(e.getMessage(), CensusAnalyserException.ExceptionType.CSV_FILE_INTERNAL_ISSUES);
 		}
 		return csvStateCodeList.size();
 	}
