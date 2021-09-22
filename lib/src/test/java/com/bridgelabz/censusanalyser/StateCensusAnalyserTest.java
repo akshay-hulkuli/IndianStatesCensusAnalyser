@@ -47,8 +47,7 @@ public class StateCensusAnalyserTest {
 			int rows = stateCensusAnalyser.loadIndianCensusData(INCORRECT_FILE_FORMAT);
 		} 
 		catch (CensusAnalyserException e) {
-			System.out.println(e.type);
-			assertEquals(e.type, CensusAnalyserException.ExceptionType.CSV_FILE_INTERNAL_ISSUES);
+			assertEquals(e.type, CensusAnalyserException.ExceptionType.INCORRECT_FILE_FORMAT);
 		}
 	}
 	
@@ -110,7 +109,16 @@ public class StateCensusAnalyserTest {
 		} 
 		catch (CensusAnalyserException e) {
 			System.out.println(e.getMessage());
-			assertEquals(e.type, CensusAnalyserException.ExceptionType.CSV_FILE_INTERNAL_ISSUES);
+			assertEquals(e.type, CensusAnalyserException.ExceptionType.INCORRECT_FILE_FORMAT);
 		}
 	}
+	@Test
+    public void givenIndianStateCodeCSVFile_WhenIncorrectHeader_ShouldThrowException() {
+    	try {
+    		StateCensusAnalyser stateCensusAnalyser = new StateCensusAnalyser();
+			int rows = stateCensusAnalyser.loadIndianCensusData(CSV_WITH_INCORRECT_HEADER);
+        } catch (CensusAnalyserException e) {
+        	assertEquals(e.type, CensusAnalyserException.ExceptionType.CSV_FILE_INTERNAL_ISSUES);
+        }
+    }
 }
