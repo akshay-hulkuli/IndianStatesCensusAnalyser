@@ -47,8 +47,8 @@ public class StateCensusAnalyserTest {
 			int rows = stateCensusAnalyser.loadIndianCensusData(INCORRECT_FILE_FORMAT);
 		} 
 		catch (CensusAnalyserException e) {
-			e.getMessage();
-			assertEquals(e.type, CensusAnalyserException.ExceptionType.UNABLE_TO_PARSE);
+			System.out.println(e.type);
+			assertEquals(e.type, CensusAnalyserException.ExceptionType.CSV_FILE_INTERNAL_ISSUES);
 		}
 	}
 	
@@ -79,7 +79,7 @@ public class StateCensusAnalyserTest {
 	public void givenIndianStateCodeCSVFile_WhenCorrect_ReturnsNumberOfRows() {
 		try {	
 			StateCensusAnalyser stateCensusAnalyser = new StateCensusAnalyser();
-			int rows = stateCensusAnalyser.loadIndianCensusData(CORRECT_STATE_CODE_FILE_PATH);
+			int rows = stateCensusAnalyser.loadIndianStateCode(CORRECT_STATE_CODE_FILE_PATH);
 			Assert.assertEquals(36,rows);
 		}
 		catch(CensusAnalyserException e) {
@@ -93,12 +93,24 @@ public class StateCensusAnalyserTest {
 			StateCensusAnalyser stateCensusAnalyser = new StateCensusAnalyser();
 			ExpectedException exceptionRule = ExpectedException.none();
 			exceptionRule.expect(CensusAnalyserException.class);
-			int rows = stateCensusAnalyser.loadIndianCensusData(WRONG_CSV_FILE_PATH);
+			int rows = stateCensusAnalyser.loadIndianStateCode(WRONG_CSV_FILE_PATH);
 		}
 		catch( CensusAnalyserException e) {
 			assertEquals(e.type, CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
 			e.getMessage();
 		}
 	}
-	
+	@Test
+	public void givenIndianStateCodeCSVFile_WhenCorrectPathButWrongFileFormat_ShouldThrowException() {	
+		try {
+			StateCensusAnalyser stateCensusAnalyser = new StateCensusAnalyser();
+			ExpectedException exceptionRule = ExpectedException.none();
+			exceptionRule.expect(CensusAnalyserException.class);
+			int rows = stateCensusAnalyser.loadIndianStateCode(INCORRECT_FILE_FORMAT);
+		} 
+		catch (CensusAnalyserException e) {
+			System.out.println(e.getMessage());
+			assertEquals(e.type, CensusAnalyserException.ExceptionType.CSV_FILE_INTERNAL_ISSUES);
+		}
+	}
 }
