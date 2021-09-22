@@ -112,11 +112,23 @@ public class StateCensusAnalyserTest {
 			assertEquals(e.type, CensusAnalyserException.ExceptionType.INCORRECT_FILE_FORMAT);
 		}
 	}
+	
+	@Test
+	public void givenWrongDelimiter_InIndiaStateCodeCSV_ShouldReturnCustomExceptionType() {
+	    try {
+	    	StateCensusAnalyser stateCensusAnalyser = new StateCensusAnalyser();
+			ExpectedException exceptionRule = ExpectedException.none();
+			exceptionRule.expect(CensusAnalyserException.class);
+			int rows = stateCensusAnalyser.loadIndianCensusData(CSV_WITH_WRONG_DELIMITER);
+	    } catch (CensusAnalyserException e) {
+	    	assertEquals(e.type, CensusAnalyserException.ExceptionType.CSV_FILE_INTERNAL_ISSUES);
+	    }
+	}
 	@Test
     public void givenIndianStateCodeCSVFile_WhenIncorrectHeader_ShouldThrowException() {
     	try {
     		StateCensusAnalyser stateCensusAnalyser = new StateCensusAnalyser();
-			int rows = stateCensusAnalyser.loadIndianCensusData(CSV_WITH_INCORRECT_HEADER);
+			int rows = stateCensusAnalyser.loadIndianStateCode(CSV_WITH_INCORRECT_HEADER);
         } catch (CensusAnalyserException e) {
         	assertEquals(e.type, CensusAnalyserException.ExceptionType.CSV_FILE_INTERNAL_ISSUES);
         }
