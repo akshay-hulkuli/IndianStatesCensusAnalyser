@@ -87,4 +87,18 @@ public class StateCensusAnalyserTest {
 		}
 	}
 	
+	@Test
+	public void givenIndianStateCodeCSVFile_WhenWrongPath_ReturnsException() {
+		try {
+			StateCensusAnalyser stateCensusAnalyser = new StateCensusAnalyser();
+			ExpectedException exceptionRule = ExpectedException.none();
+			exceptionRule.expect(CensusAnalyserException.class);
+			int rows = stateCensusAnalyser.loadIndianCensusData(WRONG_CSV_FILE_PATH);
+		}
+		catch( CensusAnalyserException e) {
+			assertEquals(e.type, CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
+			e.getMessage();
+		}
+	}
+	
 }
