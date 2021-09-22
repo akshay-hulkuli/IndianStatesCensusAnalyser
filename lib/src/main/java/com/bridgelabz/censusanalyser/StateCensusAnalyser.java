@@ -17,10 +17,11 @@ public class StateCensusAnalyser {
 	private static List<CSVStates>csvStateCodeList = new ArrayList<>();
 	
 	public int loadIndianCensusData(String csvFilePath) throws CensusAnalyserException {
-		try {
+		try(Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));)
+		{
 			if(!csvFilePath.endsWith(".csv")) 
 				throw new CensusAnalyserException("File must be in CSV format", CensusAnalyserException.ExceptionType.INCORRECT_FILE_FORMAT);
-			Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));
+			
 			CsvToBeanBuilder<CSVStateCensus> csvToBeanBuilder=new CsvToBeanBuilder<>(reader);
 			csvToBeanBuilder.withType(CSVStateCensus.class);
 			csvToBeanBuilder.withIgnoreLeadingWhiteSpace(true);
